@@ -3,34 +3,48 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
-  <!-- 项目基础信息 -->
+  <!-- 项目基础配置 -->
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>2.7.15</version>
+    <relativePath/>
+  </parent>
+
   <groupId>com.example</groupId>
   <artifactId>student-job-platform</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>1.0.0</version>
+  <name>student-job-platform</name>
+  <description>学生求职平台项目</description>
 
-  <!-- 全局配置：JDK1.8 + 编码 -->
+  <!-- JDK 1.8 全局配置 -->
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
 
-  <!-- 依赖管理（这里可以根据你的项目实际依赖补充） -->
+  <!-- 依赖管理 -->
   <dependencies>
-    <!-- 示例：JUnit 单元测试依赖 -->
+    <!-- SpringBoot Web 依赖（支持@RestController、@GetMapping） -->
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.2</version>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-web</artifactId>
+    </dependency>
+
+    <!-- 单元测试依赖（可选，可删除） -->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
     </dependency>
   </dependencies>
 
-  <!-- 构建配置（你之前的插件配置要放在这里） -->
+  <!-- 构建配置 -->
   <build>
     <plugins>
-      <!-- Maven 编译插件（JDK1.8 专用） -->
+      <!-- Maven 编译插件（适配JDK 1.8） -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -41,15 +55,52 @@
           <encoding>UTF-8</encoding>
         </configuration>
       </plugin>
+
+      <!-- SpringBoot 打包插件（打成可执行Jar） -->
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <!-- 这里填你的启动类全路径 -->
+          <mainClass>com.example.demo.DemoApplication</mainClass>
+        </configuration>
+        <executions>
+          <execution>
+            <goals>
+              <goal>repackage</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 
-  <!-- 阿里云镜像（解决CI打包时依赖下载慢/失败） -->
+  <!-- 阿里云镜像仓库（解决依赖/插件下载慢/失败） -->
   <repositories>
     <repository>
       <id>aliyunmaven</id>
       <url>https://maven.aliyun.com/repository/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </repository>
   </repositories>
+
+  <!-- 阿里云插件仓库（专门解决maven-deploy-plugin等插件下载失败） -->
+  <pluginRepositories>
+    <pluginRepository>
+      <id>aliyunmaven</id>
+      <url>https://maven.aliyun.com/repository/public</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
 
 </project>
