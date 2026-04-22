@@ -2,7 +2,8 @@ name: CI-CD WAR打包部署
 
 on:
   push:
-    branches: [ main ]
+    branches:
+      -master
 
 jobs:
   build:
